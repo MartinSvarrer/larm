@@ -8,7 +8,7 @@ readFiles('posts/', (filename, markdownContent) => {
   const htmlContent = md.render(markdownContent);
   const baseName = filename.split('.')[0];
 
-  fs.writeFile(`public/${baseName}.html`, htmlContent, (err) => {
+  fs.writeFile(`public/posts/${baseName}.html`, htmlContent, (err) => {
     if (err) {
       throw err;
     }
