@@ -1,0 +1,56 @@
+<h1>Hello world</h1>
+<p>As this is a tech blog, a hello world post seems appropriate. What better way to start than describing my approach to building my blog from scratch. I decided to not use an existing platform just for the fun of being able to learn some new things while building the blog itself.</p>
+<p>Overall my initial goal is to publish this as a static blog on GitHub Pages, with an infrastructure that will help me write my first 10 blog posts.</p>
+<h1>Writing experience</h1>
+<p>I want my blog to be version controlled and saved in plain text. Markdown is a familiar format for me, and comes with all the features I think I need for writing my articles about development. Should I need more features I should be able to migrate from markdown to something else pretty easy, using something like <a href="https://pandoc.org/">pandoc</a>.</p>
+<p>CommonMark markdown is to me the easiest choice, as it seems to be a common supported flavor by VS Code, Pandoc, and Github.</p>
+<p>Next up I need to use an editor. My only requirement for now is spell-checking, and a minimal of visualization to know my markdown is correctly formatted. For this need Visual Studio Code with <a href="https://marketplace.visualstudio.com/items?itemName=ban.spellright">Spell Right</a> extension seems to do the trick.</p>
+<h1>File structure (source and target)</h1>
+<p>Each post may consist of:</p>
+<ul>
+<li>A markdown file</li>
+<li>Assets related to the article</li>
+<li>Article metadata</li>
+</ul>
+<p>To accommodate this let's create file structure:</p>
+<ul>
+<li><code>&lt;name-of-post&gt;</code>
+<ul>
+<li><code>&lt;name-of-post&gt;.md</code></li>
+<li><code>assets/</code></li>
+<li><code>metadata.json</code></li>
+</ul>
+</li>
+</ul>
+<p>Keeping the name of the post dynamic to match the parent folder, allows me to edit multiple articles and still see what I'm editing.</p>
+<p>Each post should be published to provide nice URLs like <code>/&lt;name-of-post&gt;</code>.</p>
+<p>Should eventually the build output should end up with:</p>
+<ul>
+<li><code>&lt;name-of-post&gt;/</code>
+<ul>
+<li><code>index.html</code></li>
+<li><code>assets/</code></li>
+</ul>
+</li>
+</ul>
+<p>Which should make the post accessible at <code>/&lt;name-of-post&gt;</code>.</p>
+<h1>Compile markdown to HTML</h1>
+<p>For building a blog I will need to create a website with some static pages and somehow compile each blog post into a page which fits the overall design of the website. Each markdown file should be compiled to unique HTML pages.</p>
+<p>VS code comes with a build-in preview mode. VS Code uses <a href="https://markdown-it.github.io/">markdown-it</a>, and I have decided to jump on board an use the same for automating the generation of my static web pages.</p>
+<p>A naïve implementation for compiling the markdown will work for now. This version display the code used for compiling a all posts in <code>/posts</code> folder to the <code>public</code> folder. I don't have any <code>assets/</code> for this blog post nor do I have a <code>metadata.json</code> file, so will skip that part until it's needed.</p>
+<p>The script looks like the following:</p>
+<pre><code class="language-js">const MarkdownIt = require('markdown-it');
+const fs = require('fs');
+const path = require('path');
+
+const md = new MarkdownIt('commonmark');
+const posts = fs.readdirSync('posts/');
+
+posts.forEach(async (nameOfPost) =&gt; {
+  const pathToMdPost = path.resolve('posts', nameOfPost, nameOfPost + '.md');
+  const markdownContent = await fs.promises.readFile(pathToMdPost, { encoding: 'utf8' });
+  const htmlContent = md.render(markdownContent);
+  await fs.promises.mkdir(`public/${nameOfPost}`, { recursive: true });
+  await fs.promises.writeFile(`public/${nameOfPost}/index.html`, htmlContent);
+});
+</code></pre>
