@@ -1,19 +1,15 @@
 const MarkdownIt = require('markdown-it');
-const { readFiles } = require('./read-files');
 const fs = require('fs');
+const path = require('path');
 
 const md = new MarkdownIt('commonmark');
+const posts = fs.readdirSync('posts/');
 
-readFiles('posts/', (filename, markdownContent) => {
+posts.forEach(async (nameOfPost) => {
+  const pathToMdPost = path.resolve('posts', nameOfPost, nameOfPost + '.md');
+  const markdownContent = await fs.promises.readFile(pathToMdPost, { encoding: 'utf8' });
   const htmlContent = md.render(markdownContent);
-  const baseName = filename.split('.')[0];
-
-  fs.writeFile(`public/posts/${baseName}.html`, htmlContent, (err) => {
-    if (err) {
-      throw err;
-    }
-  })
-}, function (err) {
-  throw err;
+  await fs.promises.rmdir('public/posts', { recursive: true });
+  await fs.promises.mkdir(`public/posts/${nameOfPost}`, { recursive: true });
+  await fs.promises.writeFile(`public/posts/${nameOfPost}/index.html`, htmlContent);
 });
-
