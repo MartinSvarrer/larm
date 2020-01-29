@@ -45,16 +45,29 @@ For building a blog I will need to create a website with some static pages and s
 
 VS code comes with a build-in preview mode. VS Code uses [markdown-it](https://markdown-it.github.io/), and I have decided to jump on board an use the same for automating the generation of my static web pages.
 
+As this is a tech-blog I will also configure the [highlight.js](https://highlightjs.org/) plugin for `markdown-it`, to support good code highlighting.
+
 A naïve implementation for compiling the markdown will work for now. This version display the code used for compiling a all posts in `/posts` folder to the `public` folder. I don't have any `assets/` for this blog post nor do I have a `metadata.json` file, so will skip that part until it's needed.
 
-The script looks like the following:
+The script for locating and compiling the markdown files look like the following:
 
 ```js
 const MarkdownIt = require('markdown-it');
 const fs = require('fs');
 const path = require('path');
+const hljs = require('highlight.js');
 
-const md = new MarkdownIt('commonmark');
+const md = new MarkdownIt('commonmark', {
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(lang, str).value;
+      } catch (__) { }
+    }
+    // use external default escaping
+    return '';
+  }
+});
 const posts = fs.readdirSync('posts/');
 
 posts.forEach(async (nameOfPost) => {
@@ -66,3 +79,11 @@ posts.forEach(async (nameOfPost) => {
   await fs.promises.writeFile(`public/posts/${nameOfPost}/index.html`, htmlContent);
 });
 ```
+
+# Templating
+
+Each post must be added to a template apply the article styles, navigation etc. 
+
+# Publishing
+
+
