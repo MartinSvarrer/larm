@@ -37,20 +37,25 @@
 <h1>Compile markdown to HTML</h1>
 <p>For building a blog I will need to create a website with some static pages and somehow compile each blog post into a page which fits the overall design of the website. Each markdown file should be compiled to unique HTML pages.</p>
 <p>VS code comes with a build-in preview mode. VS Code uses <a href="https://markdown-it.github.io/">markdown-it</a>, and I have decided to jump on board an use the same for automating the generation of my static web pages.</p>
+<p>As this is a tech-blog I will also configure the <a href="https://highlightjs.org/">highlight.js</a> plugin for <code>markdown-it</code>, to support good code highlighting.</p>
 <p>A naïve implementation for compiling the markdown will work for now. This version display the code used for compiling a all posts in <code>/posts</code> folder to the <code>public</code> folder. I don't have any <code>assets/</code> for this blog post nor do I have a <code>metadata.json</code> file, so will skip that part until it's needed.</p>
-<p>The script looks like the following:</p>
-<pre><code class="language-js">const MarkdownIt = require('markdown-it');
-const fs = require('fs');
-const path = require('path');
+<p>The script for locating and compiling the markdown files look like the following:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> MarkdownIt = <span class="hljs-built_in">require</span>(<span class="hljs-string">'markdown-it'</span>);
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>);
 
-const md = new MarkdownIt('commonmark');
-const posts = fs.readdirSync('posts/');
+<span class="hljs-keyword">const</span> md = <span class="hljs-keyword">new</span> MarkdownIt(<span class="hljs-string">'commonmark'</span>);
+<span class="hljs-keyword">const</span> posts = fs.readdirSync(<span class="hljs-string">'posts/'</span>);
 
-posts.forEach(async (nameOfPost) =&gt; {
-  const pathToMdPost = path.resolve('posts', nameOfPost, nameOfPost + '.md');
-  const markdownContent = await fs.promises.readFile(pathToMdPost, { encoding: 'utf8' });
-  const htmlContent = md.render(markdownContent);
-  await fs.promises.mkdir(`public/${nameOfPost}`, { recursive: true });
-  await fs.promises.writeFile(`public/${nameOfPost}/index.html`, htmlContent);
+posts.forEach(<span class="hljs-keyword">async</span> (nameOfPost) =&gt; {
+  <span class="hljs-keyword">const</span> pathToMdPost = path.resolve(<span class="hljs-string">'posts'</span>, nameOfPost, nameOfPost + <span class="hljs-string">'.md'</span>);
+  <span class="hljs-keyword">const</span> markdownContent = <span class="hljs-keyword">await</span> fs.promises.readFile(pathToMdPost, { <span class="hljs-attr">encoding</span>: <span class="hljs-string">'utf8'</span> });
+  <span class="hljs-keyword">const</span> htmlContent = md.render(markdownContent);
+  <span class="hljs-keyword">await</span> fs.promises.rmdir(<span class="hljs-string">'public/posts'</span>, { <span class="hljs-attr">recursive</span>: <span class="hljs-literal">true</span> });
+  <span class="hljs-keyword">await</span> fs.promises.mkdir(<span class="hljs-string">`public/posts/<span class="hljs-subst">${nameOfPost}</span>`</span>, { <span class="hljs-attr">recursive</span>: <span class="hljs-literal">true</span> });
+  <span class="hljs-keyword">await</span> fs.promises.writeFile(<span class="hljs-string">`public/posts/<span class="hljs-subst">${nameOfPost}</span>/index.html`</span>, htmlContent);
 });
 </code></pre>
+<h1>Templating</h1>
+<p>Each post must be added to a template apply the article styles, navigation etc.</p>
+<h1>Publishing</h1>
