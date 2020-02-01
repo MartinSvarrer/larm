@@ -1,5 +1,25 @@
-<h1>Hello world</h1>
-<p>As this is a tech blog, a hello world post seems appropriate. What better way to start than describing my approach to building my blog from scratch. I decided to not use an existing platform just for the fun of being able to learn some new things while building the blog itself.</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Hello, reader!</title>
+</head>
+
+<body>
+  <header>
+    <a href="/">Larm [lɑːˀm]</a>
+  </header>
+
+  <main>
+    <article>
+      <header>
+        <h1>Hello, reader!</h1>
+      </header>
+
+      <p>As this is a tech blog, a hello world post seems appropriate. What better way to start than describing my approach to building my blog from scratch. I decided to not use an existing platform just for the fun of being able to learn some new things while building the blog itself.</p>
 <p>Overall my initial goal is to publish this as a static blog on GitHub Pages, with an infrastructure that will help me write my first 10 blog posts.</p>
 <h1>Writing experience</h1>
 <p>I want my blog to be version controlled and saved in plain text. Markdown is a familiar format for me, and comes with all the features I think I need for writing my articles about development. Should I need more features I should be able to migrate from markdown to something else pretty easy, using something like <a href="https://pandoc.org/">pandoc</a>.</p>
@@ -43,8 +63,19 @@
 <pre><code class="language-js"><span class="hljs-keyword">const</span> MarkdownIt = <span class="hljs-built_in">require</span>(<span class="hljs-string">'markdown-it'</span>);
 <span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
 <span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>);
+<span class="hljs-keyword">const</span> hljs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'highlight.js'</span>);
 
-<span class="hljs-keyword">const</span> md = <span class="hljs-keyword">new</span> MarkdownIt(<span class="hljs-string">'commonmark'</span>);
+<span class="hljs-keyword">const</span> md = <span class="hljs-keyword">new</span> MarkdownIt(<span class="hljs-string">'commonmark'</span>, {
+  <span class="hljs-attr">highlight</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">str, lang</span>) </span>{
+    <span class="hljs-keyword">if</span> (lang &amp;&amp; hljs.getLanguage(lang)) {
+      <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">return</span> hljs.highlight(lang, str).value;
+      } <span class="hljs-keyword">catch</span> (__) { }
+    }
+    <span class="hljs-comment">// use external default escaping</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">''</span>;
+  }
+});
 <span class="hljs-keyword">const</span> posts = fs.readdirSync(<span class="hljs-string">'posts/'</span>);
 
 posts.forEach(<span class="hljs-keyword">async</span> (nameOfPost) =&gt; {
@@ -57,5 +88,42 @@ posts.forEach(<span class="hljs-keyword">async</span> (nameOfPost) =&gt; {
 });
 </code></pre>
 <h1>Templating</h1>
-<p>Each post must be added to a template apply the article styles, navigation etc.</p>
-<h1>Publishing</h1>
+<p>The build output of each compiled markdown is an HTML fragment. To add design and a website layout elements like header, navigation and footer we must inline the content into a post layout template.</p>
+<p>For this task, I have to choose between using an existing templating engine or use simple string replacements.</p>
+<p>Lets begin with creating an HTML template, in which each blog post is added. I will use the syntax the style of <a href="http://mustache.github.io">mustache</a>  <code>{{variable}}</code> to insert things into the template.</p>
+<p>I imagine a template like the following for each post:</p>
+<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"X-UA-Compatible"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"ie=edge"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>{{title}}<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/"</span>&gt;</span>Larm [lɑːˀm]<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">article</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>{{title}}<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
+
+      {{content}}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">article</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre>
+<p>Doing a simple string replacement, works for me here, and no need for a template engine yet. I am sure using the templating engine is faster for me to get up and running and will serve me well, but where is the fun in that. Moving to a template engine later should be possible without to big changes, should the need arise for me.</p>
+
+    </article>
+  </main>
+</body>
+
+</html>

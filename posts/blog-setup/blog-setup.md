@@ -1,5 +1,3 @@
-# Hello world
-
 As this is a tech blog, a hello world post seems appropriate. What better way to start than describing my approach to building my blog from scratch. I decided to not use an existing platform just for the fun of being able to learn some new things while building the blog itself.
 
 Overall my initial goal is to publish this as a static blog on GitHub Pages, with an infrastructure that will help me write my first 10 blog posts.
@@ -73,17 +71,60 @@ const posts = fs.readdirSync('posts/');
 posts.forEach(async (nameOfPost) => {
   const pathToMdPost = path.resolve('posts', nameOfPost, nameOfPost + '.md');
   const markdownContent = await fs.promises.readFile(pathToMdPost, { encoding: 'utf8' });
-  const htmlContent = md.render(markdownContent);
+  const postHtml = md.render(markdownContent);
   await fs.promises.rmdir('public/posts', { recursive: true });
   await fs.promises.mkdir(`public/posts/${nameOfPost}`, { recursive: true });
-  await fs.promises.writeFile(`public/posts/${nameOfPost}/index.html`, htmlContent);
+  await fs.promises.writeFile(`public/posts/${nameOfPost}/index.html`, postHtml);
 });
 ```
 
 # Templating
 
-Each post must be added to a template apply the article styles, navigation etc. 
+The build output of each compiled markdown is an HTML fragment. To add design and a website layout elements like header, navigation and footer we must inline the content into a post layout template.
 
-# Publishing
+For this task, I have to choose between using an existing templating engine or use simple string replacements.
+
+Lets begin with creating an HTML template, in which each blog post is added. I will use the syntax the style of [mustache](http://mustache.github.io)  `{{variable}}` to insert things into the template.
+
+I imagine a template like the following for each post:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{{title}}</title>
+</head>
+
+<body>
+  <header>
+    <a href="/">Larm [lɑːˀm]</a>
+  </header>
+
+  <main>
+    <article>
+      <header>
+        <h1>{{title}}</h1>
+      </header>
+
+      {{content}}
+    </article>
+  </main>
+</body>
+
+</html>
+```
+Doing a simple string replacement, works for me here, and no need for a template engine yet. I am sure using the templating engine is faster for me to get up and running and will serve me well, but where is the fun in that. Moving to a template engine later should be possible without to big changes, should the need arise for me.
+
+Here is a snippet of a compiling the template with appropriate content into it:
+
+```js
+const htmlContent = htmlTemplate
+  .replace(/{{title}}/g, metadata.title)
+  .replace(/{{content}}/, postHtml);
+```
 
 

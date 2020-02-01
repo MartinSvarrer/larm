@@ -1,0 +1,9 @@
+{
+  "title": "Hello, reader!",
+  "description": "An approach for building a blog from scratch.",
+  "published": {
+    "day": 1,
+    "month": 2,
+    "year": 2020
+  }
+}
