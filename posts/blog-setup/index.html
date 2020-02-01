@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Hello, reader!</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/vs2015.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
 </head>
 
 <body>
@@ -21,11 +24,11 @@
 
       <p>As this is a tech blog, a hello world post seems appropriate. What better way to start than describing my approach to building my blog from scratch. I decided to not use an existing platform just for the fun of being able to learn some new things while building the blog itself.</p>
 <p>Overall my initial goal is to publish this as a static blog on GitHub Pages, with an infrastructure that will help me write my first 10 blog posts.</p>
-<h1>Writing experience</h1>
+<h2>Writing experience</h2>
 <p>I want my blog to be version controlled and saved in plain text. Markdown is a familiar format for me, and comes with all the features I think I need for writing my articles about development. Should I need more features I should be able to migrate from markdown to something else pretty easy, using something like <a href="https://pandoc.org/">pandoc</a>.</p>
 <p>CommonMark markdown is to me the easiest choice, as it seems to be a common supported flavor by VS Code, Pandoc, and Github.</p>
 <p>Next up I need to use an editor. My only requirement for now is spell-checking, and a minimal of visualization to know my markdown is correctly formatted. For this need Visual Studio Code with <a href="https://marketplace.visualstudio.com/items?itemName=ban.spellright">Spell Right</a> extension seems to do the trick.</p>
-<h1>File structure (source and target)</h1>
+<h2>File structure (source and target)</h2>
 <p>Each post may consist of:</p>
 <ul>
 <li>A markdown file</li>
@@ -54,7 +57,7 @@
 </li>
 </ul>
 <p>Which should make the post accessible at <code>/&lt;name-of-post&gt;</code>.</p>
-<h1>Compile markdown to HTML</h1>
+<h2>Compile markdown to HTML</h2>
 <p>For building a blog I will need to create a website with some static pages and somehow compile each blog post into a page which fits the overall design of the website. Each markdown file should be compiled to unique HTML pages.</p>
 <p>VS code comes with a build-in preview mode. VS Code uses <a href="https://markdown-it.github.io/">markdown-it</a>, and I have decided to jump on board an use the same for automating the generation of my static web pages.</p>
 <p>As this is a tech-blog I will also configure the <a href="https://highlightjs.org/">highlight.js</a> plugin for <code>markdown-it</code>, to support good code highlighting.</p>
@@ -81,16 +84,16 @@
 posts.forEach(<span class="hljs-keyword">async</span> (nameOfPost) =&gt; {
   <span class="hljs-keyword">const</span> pathToMdPost = path.resolve(<span class="hljs-string">'posts'</span>, nameOfPost, nameOfPost + <span class="hljs-string">'.md'</span>);
   <span class="hljs-keyword">const</span> markdownContent = <span class="hljs-keyword">await</span> fs.promises.readFile(pathToMdPost, { <span class="hljs-attr">encoding</span>: <span class="hljs-string">'utf8'</span> });
-  <span class="hljs-keyword">const</span> htmlContent = md.render(markdownContent);
+  <span class="hljs-keyword">const</span> postHtml = md.render(markdownContent);
   <span class="hljs-keyword">await</span> fs.promises.rmdir(<span class="hljs-string">'public/posts'</span>, { <span class="hljs-attr">recursive</span>: <span class="hljs-literal">true</span> });
   <span class="hljs-keyword">await</span> fs.promises.mkdir(<span class="hljs-string">`public/posts/<span class="hljs-subst">${nameOfPost}</span>`</span>, { <span class="hljs-attr">recursive</span>: <span class="hljs-literal">true</span> });
-  <span class="hljs-keyword">await</span> fs.promises.writeFile(<span class="hljs-string">`public/posts/<span class="hljs-subst">${nameOfPost}</span>/index.html`</span>, htmlContent);
+  <span class="hljs-keyword">await</span> fs.promises.writeFile(<span class="hljs-string">`public/posts/<span class="hljs-subst">${nameOfPost}</span>/index.html`</span>, postHtml);
 });
 </code></pre>
-<h1>Templating</h1>
+<h2>Templating</h2>
 <p>The build output of each compiled markdown is an HTML fragment. To add design and a website layout elements like header, navigation and footer we must inline the content into a post layout template.</p>
 <p>For this task, I have to choose between using an existing templating engine or use simple string replacements.</p>
-<p>Lets begin with creating an HTML template, in which each blog post is added. I will use the syntax the style of <a href="http://mustache.github.io">mustache</a>  <code>{{variable}}</code> to insert things into the template.</p>
+<p>Lets begin with creating an HTML template, in which each blog post is added. I will use the syntax the style of <a href="http://mustache.github.io">mustache</a> like  <code>{{variable}}</code> to insert things into the template.</p>
 <p>I imagine a template like the following for each post:</p>
 <pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
@@ -120,7 +123,19 @@ posts.forEach(<span class="hljs-keyword">async</span> (nameOfPost) =&gt; {
 
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre>
-<p>Doing a simple string replacement, works for me here, and no need for a template engine yet. I am sure using the templating engine is faster for me to get up and running and will serve me well, but where is the fun in that. Moving to a template engine later should be possible without to big changes, should the need arise for me.</p>
+<p>Doing a simple string replacement, works for me here, and no need for a template engine yet. I am sure using the templating engine is faster for me to get up and running and will serve me well, but where is the fun in that. Moving to a template engine later should be possible without too big changes.</p>
+<p>Here is a snippet of replacing some variables in the template with appropriate content:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> htmlContent = htmlTemplate
+  .replace(<span class="hljs-regexp">/{{title}}/g</span>, metadata.title)
+  .replace(<span class="hljs-regexp">/{{content}}/</span>, postHtml);
+</code></pre>
+<p>Simple, but effective!</p>
+<h2>Styling</h2>
+<p>We already configured the markdown so that we can display syntax highlighting. Adding the highlight.js stylesheets is now a simple and easy task:</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/vs2015.min.css"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>hljs.initHighlightingOnLoad();<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
 
     </article>
   </main>
