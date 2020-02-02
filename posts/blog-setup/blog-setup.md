@@ -69,12 +69,33 @@ const md = new MarkdownIt('commonmark', {
 const posts = fs.readdirSync('posts/');
 
 posts.forEach(async (nameOfPost) => {
-  const pathToMdPost = path.resolve('posts', nameOfPost, nameOfPost + '.md');
-  const markdownContent = await fs.promises.readFile(pathToMdPost, { encoding: 'utf8' });
-  const postHtml = md.render(markdownContent);
-  await fs.promises.rmdir('public/posts', { recursive: true });
-  await fs.promises.mkdir(`public/posts/${nameOfPost}`, { recursive: true });
-  await fs.promises.writeFile(`public/posts/${nameOfPost}/index.html`, postHtml);
+  const pathToMdPost = path.resolve(
+    'posts',
+    nameOfPost,
+    nameOfPost + '.md'
+  );
+
+  const mdContent = await fs.promises.readFile(
+    pathToMdPost,
+    { encoding: 'utf8' }
+  );
+
+  const postHtml = md.render(mdContent);
+  
+  await fs.promises.rmdir(
+    'public/posts',
+    { recursive: true }
+  );
+
+  await fs.promises.mkdir(
+    `public/posts/${nameOfPost}`,
+    { recursive: true }
+  );
+
+  await fs.promises.writeFile(
+    `public/posts/${nameOfPost}/index.html`,
+    postHtml
+  );
 });
 ```
 
@@ -89,33 +110,19 @@ Lets begin with creating an HTML template, in which each blog post is added. I w
 I imagine a template like the following for each post:
 
 ```html
-<!DOCTYPE html>
-<html lang="en">
+<header>
+  <a href="/">Larm [lɑːˀm]</a>
+</header>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{{title}}</title>
-</head>
+<main>
+  <article>
+    <header>
+      <h1>{{title}}</h1>
+    </header>
 
-<body>
-  <header>
-    <a href="/">Larm [lɑːˀm]</a>
-  </header>
-
-  <main>
-    <article>
-      <header>
-        <h1>{{title}}</h1>
-      </header>
-
-      {{content}}
-    </article>
-  </main>
-</body>
-
-</html>
+    {{content}}
+  </article>
+</main>
 ```
 Doing a simple string replacement, works for me here, and no need for a template engine yet. I am sure using the templating engine is faster for me to get up and running and will serve me well, but where is the fun in that. Moving to a template engine later should be possible without too big changes.
 
@@ -131,10 +138,13 @@ Simple, but effective!
 
 ## Styling
 
-We already configured the markdown so that we can display syntax highlighting. Adding a highlight.js stylesheet is now a simple and easy task:
+One of the most important parts of the styling for any blog is without a doubt the font, font-size and the length of the paragraph.
 
-```html
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/vs2015.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-```
+I like a good semi-big font-size for reading. 16px seems to be a general good size. I would like to see just under 100 characters per paragraph. As I am using the `'Source Sans Pro'` font, this means I will need a maximum paragraph around 640px.
+
+For me being able to display code is also a real challenge. Because of the font-size, and paragraph size. If my code snippets have the same constraints, then I will have to limit my code snippets to maximum 65 characters, to avoid horizontal scrollbars.
+
+To understand when my snippets will cause horizontal scrollbars for users with screens bigger than 640px, I have configured my writing environment to display a horizontal ruler. I could use a tooling like [prettier](https://prettier.io/) to enforce the rule on in my code. But I prefer my actual code to have longer lines, so I will have to correct these line manually for now. 
+
+Phone users in portrait-mode will have a struggle to see many the code snippets. And here I don't see a better option that to enforce a horizontal scrollbar, and keep in mind to keep my snippets simplified and as short as possible, while keeping it readable for desktop users. Most phones will be able to display a scroll-free version of the snippets in landscape mode, which I think is an acceptable compromise.
+
