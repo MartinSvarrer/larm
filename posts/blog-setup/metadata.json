@@ -1,6 +1,6 @@
 {
-  "title": "Hello, reader!",
-  "description": "An approach for building a blog from scratch.",
+  "title": "How I Build This Blog",
+  "description": "My thoughts and technical decisions on building this blog.",
   "published": {
     "day": 1,
     "month": 2,
