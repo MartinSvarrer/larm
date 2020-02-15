@@ -136,7 +136,7 @@ const htmlContent = htmlTemplate
 
 Simple, but effective!
 
-## Styling
+## Reading Experience
 
 One of the most important parts of the styling for any blog is without a doubt the font, font-size and the length of the paragraph.
 
@@ -148,3 +148,16 @@ To understand when my snippets will cause horizontal scrollbars for users with s
 
 Phone users in portrait-mode will have a struggle to see many the code snippets. And here I don't see a better option that to enforce a horizontal scrollbar, and keep in mind to keep my snippets simplified and as short as possible, while keeping it readable for desktop users. Most phones will be able to display a scroll-free version of the snippets in landscape mode, which I think is an acceptable compromise.
 
+## Visual Design
+
+I will admit, designing is not my strongest asset. At first I wanted to go with super simplistic reading experience, much like you would find in Firefox's reading mode, or something similar to the styling on write.as.
+
+As I was reading the blog [ev.ee](https://eev.ee) I realized how cool it was with some personal styling for a blog.
+
+To make this blog more personal, I decided to use a color scheme close to the colors of my apartment.
+
+TODO: INSERT IMAGES FROM APARTMENT HERE!
+
+Combining that with the designs of the striped beach houses of Costa Nova in Portugal, (thanks to my lovely girlfriends suggestion) which we experienced on a holiday, I managed to add some texture to the blog design, and give it a more welcoming friendly design.
+
+Also as a vivid board gamer, I usually pick yellow as my color, so I'm quite happy with using a bright yellow color for the design to represent my writing. 

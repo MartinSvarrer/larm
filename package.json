@@ -12,7 +12,8 @@
   "devDependencies": {
     "highlight.js": "^9.18.0",
     "live-server": "^1.2.1",
-    "markdown-it": "^10.0.0"
+    "markdown-it": "^10.0.0",
+    "reading-time": "^1.2.0"
   },
   "dependencies": {}
 }

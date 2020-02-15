@@ -23,6 +23,7 @@
     <article>
       <header>
         <h1>How I Build This Blog</h1>
+        <p>Feb 12, 2020 - 6 min read</p>
       </header>
 
       <p>As this is a tech blog, a hello world post seems appropriate. What better way to start than describing my approach to building my blog from scratch. I decided to not use an existing platform just for the fun of being able to learn some new things while building the blog itself.</p>
@@ -140,12 +141,19 @@ posts.forEach(<span class="hljs-keyword">async</span> (nameOfPost) =&gt; {
   .replace(<span class="hljs-regexp">/{{content}}/</span>, postHtml);
 </code></pre>
 <p>Simple, but effective!</p>
-<h2>Styling</h2>
+<h2>Reading Experience</h2>
 <p>One of the most important parts of the styling for any blog is without a doubt the font, font-size and the length of the paragraph.</p>
 <p>I like a good semi-big font-size for reading. 16px seems to be a general good size. I would like to see just under 100 characters per paragraph. As I am using the <code>'Source Sans Pro'</code> font, this means I will need a maximum paragraph around 640px.</p>
 <p>For me being able to display code is also a real challenge. Because of the font-size, and paragraph size. If my code snippets have the same constraints, then I will have to limit my code snippets to maximum 65 characters, to avoid horizontal scrollbars.</p>
 <p>To understand when my snippets will cause horizontal scrollbars for users with screens bigger than 640px, I have configured my writing environment to display a horizontal ruler. I could use a tooling like <a href="https://prettier.io/">prettier</a> to enforce the rule on in my code. But I prefer my actual code to have longer lines, so I will have to correct these line manually for now.</p>
 <p>Phone users in portrait-mode will have a struggle to see many the code snippets. And here I don't see a better option that to enforce a horizontal scrollbar, and keep in mind to keep my snippets simplified and as short as possible, while keeping it readable for desktop users. Most phones will be able to display a scroll-free version of the snippets in landscape mode, which I think is an acceptable compromise.</p>
+<h2>Visual Design</h2>
+<p>I will admit, designing is not my strongest asset. At first I wanted to go with super simplistic reading experience, much like you would find in Firefox's reading mode, or something similar to the styling on write.as.</p>
+<p>As I was reading the blog <a href="https://eev.ee">ev.ee</a> I realized how cool it was with some personal styling for a blog.</p>
+<p>To make this blog more personal, I decided to use a color scheme close to the colors of my apartment.</p>
+<p>TODO: INSERT IMAGES FROM APARTMENT HERE!</p>
+<p>Combining that with the designs of the striped beach houses of Costa Nova in Portugal, (thanks to my lovely girlfriends suggestion) which we experienced on a holiday, I managed to add some texture to the blog design, and give it a more welcoming friendly design.</p>
+<p>Also as a vivid board gamer, I usually pick yellow as my color, so I'm quite happy with using a bright yellow color for the design to represent my writing.</p>
 
     </article>
   </main>

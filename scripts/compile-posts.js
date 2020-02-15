@@ -2,6 +2,7 @@ const MarkdownIt = require('markdown-it');
 const fs = require('fs');
 const path = require('path');
 const hljs = require('highlight.js');
+const readingTime = require('reading-time');
 
 const md = new MarkdownIt('commonmark', {
   highlight: function (str, lang) {
@@ -30,9 +31,15 @@ posts.forEach(async (nameOfPost) => {
   const markdownContent = await fs.promises.readFile(pathToMdPost, { encoding: 'utf8' });
   const postHtml = md.render(markdownContent);
 
+  // Generate time-to-read info and other stats
+  const stats = readingTime(markdownContent);
+  const date = new Date(metadata.date);
+  const dateString = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(date)
+  console.log(stats)
   // Render post template with post and metadata content
   const htmlContent = htmlTemplate
     .replace(/{{title}}/g, metadata.title)
+    .replace(/{{stats}}/, `${dateString} - ${stats.text}`)
     .replace(/{{content}}/, postHtml);
 
   // Write finished blog post

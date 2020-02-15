@@ -1,9 +1,5 @@
 {
   "title": "How I Build This Blog",
   "description": "My thoughts and technical decisions on building this blog.",
-  "published": {
-    "day": 1,
-    "month": 2,
-    "year": 2020
-  }
+  "date": "2020-02-12"
 }
