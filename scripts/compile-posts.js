@@ -51,7 +51,7 @@ async function compileTemplates() {
     const teaserContent = teaserTemplate
       .replace(/{{link}}/, `posts/${nameOfPost}`)
       .replace(/{{title}}/, metadata.title)
-      .replace(/{{date}}/, dateString)
+      .replace(/{{stats}}/, `${dateString} - ${stats.text}`)
       .replace(/{{description}}/, metadata.description);
 
     teasers.push([date.getTime(), teaserContent]);

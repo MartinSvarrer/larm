@@ -163,4 +163,24 @@ Combining that with the designs of the striped beach houses of Costa Nova in Por
 ![Striped houses of Costa Nova](assets/costa-nova.jpg)
 
 
-Also as a vivid board gamer, I usually pick yellow as my color, so I'm quite happy with using a bright yellow color for the design to represent my writing. 
+Also as a vivid board gamer, I usually pick yellow as my color, so I'm quite happy with using a bright yellow color for the design to represent my writing.
+
+## Publishing
+
+As I will be publishing my website on GitHub pages, which supports to publish a repos `master` branch, the `gh-pages` branch or the `docs` folder. Using the `gh-pages` branch gives the benefit of having a history of my published site stored in git and a way to roll-back etc. Very nice!
+
+To make this work all I have to do is:
+
+- Run my build script
+- Push `public/` folder to `gh-pages` branch
+- Configure GitHub to use `gh-pages` branch as publishing source
+
+Now every time I push `gh-pages` my blog is updated.
+
+## What's left?
+
+Obviously many things are missing that you would get from using blogging software. But overall I think this setup will serve me well for my 10 first blog entries.
+
+Check out the full [larm source code](https://github.com/MartinSvarrer/larm) on GitHub.
+
+I am yet to think of a way for interacting with my readers. I will leave this for now, up to platforms where I am posting links to my blog.
