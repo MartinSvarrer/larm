@@ -23,7 +23,7 @@
     <article>
       <header>
         <h1>How I Build This Blog</h1>
-        <p>Feb 12, 2020 - 6 min read</p>
+        <p>Mar 1, 2020 - 7 min read</p>
       </header>
 
       <p>As this is a tech blog, a hello world post seems appropriate. What better way to start than describing my approach to building my blog from scratch. I decided to not use an existing platform just for the fun of being able to learn some new things while building the blog itself.</p>
@@ -155,6 +155,19 @@ posts.forEach(<span class="hljs-keyword">async</span> (nameOfPost) =&gt; {
 <p>Combining that with the designs of the striped beach houses of Costa Nova in Portugal, (thanks to my lovely girlfriends suggestion) which we experienced on a holiday, I managed to add some texture to the blog design, and give it a more welcoming friendly design.</p>
 <p><img src="assets/costa-nova.jpg" alt="Striped houses of Costa Nova" /></p>
 <p>Also as a vivid board gamer, I usually pick yellow as my color, so I'm quite happy with using a bright yellow color for the design to represent my writing.</p>
+<h2>Publishing</h2>
+<p>As I will be publishing my website on GitHub pages, which supports to publish a repos <code>master</code> branch, the <code>gh-pages</code> branch or the <code>docs</code> folder. Using the <code>gh-pages</code> branch gives the benefit of having a history of my published site stored in git and a way to roll-back etc. Very nice!</p>
+<p>To make this work all I have to do is:</p>
+<ul>
+<li>Run my build script</li>
+<li>Push <code>public/</code> folder to <code>gh-pages</code> branch</li>
+<li>Configure GitHub to use <code>gh-pages</code> branch as publishing source</li>
+</ul>
+<p>Now every time I push <code>gh-pages</code> my blog is updated.</p>
+<h2>What's left?</h2>
+<p>Obviously many things are missing that you would get from using blogging software. But overall I think this setup will serve me well for my 10 first blog entries.</p>
+<p>Check out the full <a href="https://github.com/MartinSvarrer/larm">larm source code</a> on GitHub.</p>
+<p>I am yet to think of a way for interacting with my readers. I will leave this for now, up to platforms where I am posting links to my blog.</p>
 
     </article>
   </main>
