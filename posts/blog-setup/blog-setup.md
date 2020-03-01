@@ -156,8 +156,11 @@ As I was reading the blog [ev.ee](https://eev.ee) I realized how cool it was wit
 
 To make this blog more personal, I decided to use a color scheme close to the colors of my apartment.
 
-TODO: INSERT IMAGES FROM APARTMENT HERE!
+![Bedroom](assets/bedroom.jpg)
 
 Combining that with the designs of the striped beach houses of Costa Nova in Portugal, (thanks to my lovely girlfriends suggestion) which we experienced on a holiday, I managed to add some texture to the blog design, and give it a more welcoming friendly design.
+
+![Striped houses of Costa Nova](assets/costa-nova.jpg)
+
 
 Also as a vivid board gamer, I usually pick yellow as my color, so I'm quite happy with using a bright yellow color for the design to represent my writing. 
