@@ -1,0 +1,141 @@
+{
+  "main": {
+    "id": "6c15934fbe0034d7",
+    "type": "split",
+    "children": [
+      {
+        "id": "b26945134be7e920",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fb6615a15c2f179e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "unit-testing/Code testing.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "e3289d7b9cb77601",
+    "type": "split",
+    "children": [
+      {
+        "id": "f5f946602cf9e7d4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4805013e666026ac",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "b74eeb399745a7d2",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "b27906b752fdeab5",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "22b6543efa6d2be3",
+    "type": "split",
+    "children": [
+      {
+        "id": "24913a4fe39a23d6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9c35adfe41dcf1e7",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "unit-testing/Code testing.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "27375419f4cfadb6",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "unit-testing/Code testing.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "bd1c59e0ebdc9f68",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "b46f72796c31591c",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "unit-testing/Code testing.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "fb6615a15c2f179e",
+  "lastOpenFiles": []
+}
